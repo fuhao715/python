@@ -37,3 +37,8 @@ else:
 
 print 'Done'
 
+# for循环：for..in是另外一个循环语句，它在一序列的对象上 递归 即逐一使用队列中的每个项目
+for i in range(0,9):
+    print i
+else:
+    print 'Done'
