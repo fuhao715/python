@@ -53,7 +53,7 @@ print 'Value of x is', x
 def say(message, times = 1):
     print message * times
 
-say('Hello')
+say('Hello  中国人')
 say('World', 5)
 
 # 如果你的某个函数有许多参数，而你只想指定其中的一部分，
