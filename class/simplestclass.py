@@ -10,8 +10,10 @@ __author__ = 'fuhao'
   descripton:
 '''
 class Person:
-   def sayHI(self,name):
-       print 'hello  ,',name
+    def __init__(self,name):
+        self.name=name
+    def sayHI(self):
+       print 'hello  ,',self.name
 
-p = Person()
-p.sayHI('python')
+p = Person('pythoner')
+p.sayHI()
