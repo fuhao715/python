@@ -11,7 +11,7 @@ __author__ = 'fuhao'
 '''
 class Person:
    def sayHI(self,name):
-       print 'hello ,',name
+       print 'hello  ,',name
 
 p = Person()
 p.sayHI('python')
