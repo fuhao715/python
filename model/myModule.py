@@ -8,7 +8,7 @@
   Date: 13-3-14 : 上午11:24
   descripton:
 '''
-import  modelName
+import modelName
 modelName.func()
 print dir(modelName)
 name = 'china'
