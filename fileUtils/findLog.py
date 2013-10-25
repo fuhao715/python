@@ -6,6 +6,7 @@ __author__ = 'fuhao'
 # * Time: 下午3:23
 # * To change this template use File | Settings | File Templates.
 import os
+import re
 current_path = os.getcwd()
 #print current_path + '\n'
 
@@ -21,10 +22,19 @@ def wald_dir(dir, fileinfor, topdown=True):
 
 def find_information(log_file, infor):
     txt = open(log_file, 'r')
-    for (line, value) in enumerate(txt):
-        index = value.find(infor)
-        if index != -1:
-            print '%s  %d  %s \n' % (log_file[log_file.find('domains/')+8:], line, value)
+    context = txt.read()
+    if re.search(infor, context):
+        print '%s ' % (log_file[log_file.find('domains/')+8:])
+        txt.seek(0)
+        count = 0
+        for (line, value) in enumerate(txt):
+            index = value.find(infor)
+            if index != -1:
+                count += 1
+                if count == 10:
+                    raw_input("请输入Enter继续查看:\n")
+                    count = 0
+                print '%d  %s \n' % (line, value)
     txt.close()
 
 
