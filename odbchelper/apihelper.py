@@ -33,3 +33,18 @@ if __name__ == "__main__":
     lin = [elem for elem in li if li.count(elem) == 1]
     print lin
 
+    # and or语法学习
+    #and 返回第一个为假的值，若都为真则返回最后一个真值
+    print 'a' and 'b'  # 'a'
+    print '' and 'a'  # ''
+    print 'a' and ''  # ''
+    print 'a' and '' and 'c'  # ''
+    print 'a' and 'b' and ''  # ''
+    #or 返回第一个为真的值，若都为假则返回最后一个假值
+    print 'a' or 'b'  # 'a'
+    print '' or 'a'  # 'a'
+    print 'a' or ''  # 'a'
+    print '' or [] or 'c'  # 'c'
+    print '' or [] or {}  # '{}'
+
+
