@@ -21,7 +21,7 @@ def info(object, spacing=10, collapse=1):
     print " ".join(gs)
 
     method_pop = getattr(object, "pop")
-    print 'pop :%s , object is %s' % (method_pop(), object)
+    print 'type of method_pop ： %s \n pop :%s \n object is %s \n' % (type(method_pop),method_pop(), object)
 
 if __name__ == "__main__":
     li = ['a', 'b', 'c']
