@@ -17,8 +17,13 @@ def info(object, spacing=10, collapse=1):
     print "\n".join(["%s %s" % (method.ljust(spacing),
                                 processFunc(str(getattr(object, method).__doc__)))
                      for method in methodList])
+    gs = ["%s" % (method.ljust(spacing)) for method in methodList if method == 'pop']
+    print " ".join(gs)
+
+    method_pop = getattr(object, "pop")
+    print 'pop :%s , object is %s' % (method_pop(), object)
 
 if __name__ == "__main__":
-    li = []
+    li = ['a', 'b', 'c']
     info(li)
 
