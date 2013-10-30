@@ -7,6 +7,7 @@ __author__ = 'fuhao'
 # * To change this template use File | Settings | File Templates.
 import types
 
+
 def info(object, spacing=10, collapse=1):
     """Print methods and doc strings.
 
@@ -14,21 +15,22 @@ def info(object, spacing=10, collapse=1):
 
     # 过滤列表语法：例如可以列表中挑选数据，可列表去重等操作。
     #[mapping-expression for element in source-list if filter-expression]
-    methodList = [method for method in dir(object) if callable(getattr(object, method))]
-    processFunc = collapse and (lambda s: " ".join(s.split())) or (lambda s: s)
+    method_list = [method for method in dir(object) if callable(getattr(object, method))]
+    # 若collapse为真则返回第一个lambda函数,否则返回第二个。其中第一个函数是把s先按空白分割，在同一用空格链接为一行。
+    process_func = collapse and (lambda s: " ".join(s.split())) or (lambda s: s)
     print "\n".join(["%s %s" % (method.ljust(spacing),
-                                processFunc(str(getattr(object, method).__doc__)))
-                     for method in methodList])
-    gs = ["%s" % (method.ljust(spacing)) for method in methodList if method == 'pop']
+                                process_func(str(getattr(object, method).__doc__)))
+                     for method in method_list])
+    gs = ["%s" % (method.ljust(spacing)) for method in method_list if method == 'pop']
     print " ".join(gs)
 
     method_pop = getattr(object, "pop")  # 获取对象的pop()
     # 调用pop()并打印
-    print 'type of method_pop ： %s \n pop :%s \n object is %s \n' % (type(method_pop),method_pop(), object)
+    print 'type of method_pop ： %s \n pop :%s \n object is %s \n' % (type(method_pop), method_pop(), object)
 
 
-def ty(str):
-    return type(str) is types.StringType
+def ty(input_string):
+    return isinstance(input_string, types.StringType)
 
 
 if __name__ == "__main__":
@@ -53,10 +55,10 @@ if __name__ == "__main__":
     print '' or [] or {}  # '{}'
 
     # and or使用技巧
-    str = raw_input("请输入字符：")
+    input_str = raw_input("请输入字符：")
     # 1 and a or b 若第一个为真，则返回a否则b，类似 bool ? a : b 表达式
     # 0 and a or b 若第一个为假，则返回b否则a，类似 bool ? a : b 表达式
-    res = ty(str) and li[0] or li[1]
+    res = ty(input_str) and li[0] or li[1]
     print res
 
     # a 为假则不是预期结果了，可如下办法解决：把a放入列表[a]不为假
@@ -64,4 +66,3 @@ if __name__ == "__main__":
     b = 'second'
     result = (1 and [a] or [b])[0]
     print result
-
