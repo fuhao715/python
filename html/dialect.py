@@ -144,6 +144,7 @@ def translate(url, dialectName = "chef"):
     sock = urllib.urlopen(url)
     htmlSource = sock.read()
     sock.close()
+    print htmlSource
     parserName = "%sDialectizer" % dialectName.capitalize()
     parserClass = globals()[parserName]
     parser = parserClass()
@@ -163,4 +164,4 @@ def test(url):
         webbrowser.open_new(outfile)
 
 if __name__ == "__main__":
-    test("http://diveintopython.org/odbchelper_list.html")
+    test("http://www.pheelicks.com/2013/10/intro-to-images-in-go-concurrency/")
