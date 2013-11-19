@@ -1,0 +1,109 @@
+# -*- coding: UTF-8 -*-
+__author__ = 'fuhao'
+# * Created by PyCharm.
+# * User: fuhao
+# * Date: 13-11-19
+# * Time: 下午5:06
+# * To change this template use File | Settings | File Templates.
+from pymongo import Connection
+from gridfs import *
+import StringIO
+import threading,time
+from bson.objectid import ObjectId
+#文件处理系统
+class GFS:
+    #定义connection and fs
+    c = None
+    db = None
+    fs = None
+    instance = None
+    locker = threading.Lock()
+
+    #初始化
+    def __init__(self):
+        print "__init__"
+        GFS._connect()
+        print "server info " + " * " * 40
+        print GFS.c.server_info
+
+    #获得单列对象
+    @staticmethod
+    def getInstance():
+        GFS.locker.acquire()
+        try:
+            GFS.instance
+            if not GFS.instance:
+                GFS.instance = GFS()
+            return GFS.instance
+        finally:
+            GFS.locker.release()
+
+    #写入
+    def put(self,name,format="jpg",mime="image"):
+        gf = None
+        myimage = None
+        try:
+            # data = StringIO.StringIO()
+            myimage = open(name, 'rb')
+            data = myimage.read()
+            print "name is %s" % name
+            gf = GFS.fs.put(data, filename=name, format=format)
+            #gf = GFS.fs.open(name,"w")
+            #gf.content_type = "%s/%s" % (mime,format)
+            #gf.write(data.getvalue())
+        finally:
+            #try:
+             #   gf.close()
+             #   myimage.close()
+            #finally:
+                GFS.c = None
+                GFS._connect()
+
+    #获得图片
+    def get(self,name):
+        gf = None
+        try:
+            gf  = GFS.fs.open(name,"r")
+            print gf
+            im = gf.read()
+            dic = {}
+            dic["chunk_size"] =  gf.chunk_size
+            dic["metadata"] = gf.metadata
+            dic["mode"] = gf.mode
+            dic["length"] = gf.length
+            dic["upload_date"] = gf.upload_date
+            dic["name"] = gf.name
+            dic["content_type"] = gf.content_type
+            return (im , dic)
+        except Exception,e:
+            print e
+            return (None,None)
+        finally:
+                if gf:
+                    if not gf.closed:
+                        gf.close()
+
+
+    #获得文件列表
+    def list(self):
+        return GFS.fs.list()
+
+    #删除文件
+    def remove(self,name):
+        GFS.fs.remove(name)
+
+    @staticmethod
+    def _connect():
+        if  not GFS.c:
+            GFS.c = Connection("10.23.4.208", 27017)
+            GFS.db = GFS.c['imgdb']
+            GFS.fs = GridFS(GFS.db)
+
+
+if __name__ == "__main__":
+    gfs = GFS.getInstance()
+    if gfs:
+        image_id = gfs.put("D:/css.jpg")
+        print "==========Object id is %s  and it's type is %s==========" % (image_id , type(image_id))
+        (data, dic) = gfs.get(ObjectId(image_id))
+        gfs.write_2_disk(data, dic)
