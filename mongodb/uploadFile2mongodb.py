@@ -69,7 +69,7 @@ class mongoImg(object):
         print ("It cost %f sec" % (tEnd - tStart))
 
     #get image by filename
-    def getbyname(self, filename, savepath):
+    def downloadbyname(self, filename, savepath):
         """get img from mongdb by filename
         """
         if len(savepath) < 1:
@@ -77,7 +77,7 @@ class mongoImg(object):
 
         dataout = self.__imgfs.get_version(filename)
         # try:
-        imgout = open(savepath, 'wb')
+        imgout = open(savepath+filename, 'wb')
         data = dataout.read()
         imgout.write(data)
         # finally:
@@ -100,6 +100,9 @@ class mongoImg(object):
         pass
 
     def deleteFiles(self):
+        pass
+
+    def findbyname(self, filename):
         pass
 
     def findAll(self):

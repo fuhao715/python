@@ -14,6 +14,10 @@ db = con.imgdb
 imgmongo = uploadFile2mongodb.mongoImg(db, filedir)
 #imgmongo.insert()
 
-#imgmongo.getbyname('D:\image\Fish.bmp',r'D:\Fish.bmp')
-imgmongo.downloadFiles(r'D:/css/')
+
+
+#imgmongo.downloadbyname('Leaf.bmp', r'D:/')
+#imgmongo.downloadFiles(r'D:/css/')
+#imgmongo.deleteFile('css.jpg')
 #imgmongo.deleteFiles()
+print imgmongo.findbyname('Leaf.bmp')
