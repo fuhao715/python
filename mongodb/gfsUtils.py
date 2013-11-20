@@ -7,13 +7,12 @@ __author__ = 'fuhao'
 # * To change this template use File | Settings | File Templates.
 from pymongo import Connection
 from gridfs import *
-import StringIO
 import threading,time
 from bson.objectid import ObjectId
 #文件处理系统
 class GFS:
     #定义connection and fs
-    c = None
+    conn = None
     db = None
     fs = None
     instance = None
@@ -24,7 +23,7 @@ class GFS:
         print "__init__"
         GFS._connect()
         print "server info " + " * " * 40
-        print GFS.c.server_info
+        print GFS.conn.server_info
 
     #获得单列对象
     @staticmethod
@@ -38,29 +37,32 @@ class GFS:
         finally:
             GFS.locker.release()
 
-    #写入
-    def put(self,name,format="jpg",mime="image"):
-        gf = None
-        myimage = None
+    #写入,返回文件id号
+    def insert(self, name):
+        my_file = None
         try:
-            # data = StringIO.StringIO()
-            myimage = open(name, 'rb')
-            data = myimage.read()
+            my_file = open(name, 'rb')
+            data = my_file.read()
             print "name is %s" % name
-            gf = GFS.fs.put(data, filename=name, format=format)
-            #gf = GFS.fs.open(name,"w")
-            #gf.content_type = "%s/%s" % (mime,format)
-            #gf.write(data.getvalue())
+            with GFS.fs.new_file() as fp:
+                fp.write(data)
+                fp.close()
+                return fp._id
         finally:
-            #try:
-             #   gf.close()
-             #   myimage.close()
-            #finally:
-                GFS.c = None
+            try:
+                my_file.close()
+            finally:
+                GFS.conn = None
                 GFS._connect()
 
+    def update(self, file_id):
+        pass
+
+    def getByFileID(self, file_id):
+        return list(GFS.db.fs.chunks.find(dict(files_id=file_id)))
+
     #获得图片
-    def get(self,name):
+    def getByName(self,name):
         gf = None
         try:
             gf  = GFS.fs.open(name,"r")
@@ -86,7 +88,7 @@ class GFS:
 
     #获得文件列表
     def list(self):
-        return GFS.fs.list()
+        return list(self.db.fs.files.find())
 
     #删除文件
     def remove(self,name):
@@ -94,9 +96,9 @@ class GFS:
 
     @staticmethod
     def _connect():
-        if  not GFS.c:
-            GFS.c = Connection("10.23.4.208", 27017)
-            GFS.db = GFS.c['imgdb']
+        if not GFS.c:
+            GFS.conn = Connection("10.23.4.208", 27017)
+            GFS.db = GFS.conn.imgdb
             GFS.fs = GridFS(GFS.db)
 
 
