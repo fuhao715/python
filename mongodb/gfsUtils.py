@@ -62,24 +62,24 @@ class GFS:
         return list(GFS.db.fs.chunks.find(dict(files_id=file_id)))
 
     #获得图片
-    def getByName(self,name):
+    def getByName(self, name):
         gf = None
         try:
-            gf  = GFS.fs.open(name,"r")
+            gf = GFS.fs.open(name, "r")
             print gf
             im = gf.read()
             dic = {}
-            dic["chunk_size"] =  gf.chunk_size
+            dic["chunk_size"] = gf.chunk_size
             dic["metadata"] = gf.metadata
             dic["mode"] = gf.mode
             dic["length"] = gf.length
             dic["upload_date"] = gf.upload_date
             dic["name"] = gf.name
             dic["content_type"] = gf.content_type
-            return (im , dic)
+            return (im, dic)
         except Exception,e:
             print e
-            return (None,None)
+            return (None, None)
         finally:
                 if gf:
                     if not gf.closed:
