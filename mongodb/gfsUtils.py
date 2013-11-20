@@ -76,8 +76,8 @@ class GFS:
             dic["upload_date"] = gf.upload_date
             dic["name"] = gf.name
             dic["content_type"] = gf.content_type
-            return (im, dic)
-        except Exception,e:
+            return (im,dic)
+        except Exception, e:
             print e
             return (None, None)
         finally:
@@ -90,9 +90,9 @@ class GFS:
     def list(self):
         return list(self.db.fs.files.find())
 
-    #删除文件
-    def remove(self,name):
-        GFS.fs.remove(name)
+    #删除文件,name is fileID
+    def remove(self, name):
+        GFS.fs.delete(name)
 
     @staticmethod
     def _connect():
