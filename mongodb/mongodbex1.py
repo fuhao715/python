@@ -77,3 +77,4 @@ print posts.find({"date": {"$lt": d}}).sort("author").explain()["nscanned"]
 
 
 
+
