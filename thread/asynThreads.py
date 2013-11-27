@@ -9,6 +9,7 @@ from threading import Lock, Thread
 lock = Lock()
 some_var = 0
 
+
 class IncrementThread(Thread):
     def run(self):
         global some_var
