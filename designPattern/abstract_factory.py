@@ -78,3 +78,6 @@ if __name__ == "__main__":
     shop.pet_factory = get_factory("Dog")
     shop.show_pet()
     print("=" * 20)
+    shop.pet_factory = get_factory("Cat")
+    shop.show_pet()
+    print("=" * 20)
