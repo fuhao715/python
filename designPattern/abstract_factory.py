@@ -65,16 +65,16 @@ class CatFactory:
         return "cat food"
 
 # create the proper family
-def get_factory():
+def get_factory(name):
     """
     let's be dynamic!
     """
-    return random.choice([DogFactory, CatFactory])()
+    #random.choice([DogFactory, CatFactory])()
+    return eval(name+'Factory()')
 
 # Show pets with various factories
 if __name__ == "__main__":
     shop = PetShop()
-    for i in range(3):
-        shop.pet_factory = get_factory()
-        shop.show_pet()
-        print("=" * 20)
+    shop.pet_factory = get_factory("Dog")
+    shop.show_pet()
+    print("=" * 20)
