@@ -1,0 +1,9 @@
+DEBUG:root:this is a debug message
+2014-01-24 11:24:22,737 - DEBUG: this is a debug message
+2014-01-24 11:25:33,605 - DEBUG: this is a debug message
+2014-01-24 11:25:33,607 - DEBUG: debug
+2014-01-24 11:25:33,607 - INFO: info
+2014-01-24 11:25:33,607 - WARNING: warn
+2014-01-24 11:25:33,607 - ERROR: error
+2014-01-24 11:26:09,549 - WARNING: warn
+2014-01-24 11:26:09,549 - ERROR: error
