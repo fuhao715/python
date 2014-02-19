@@ -7,29 +7,42 @@ __author__ = 'fuhao'
 # * To change this template use File | Settings | File Templates.
 import subprocess
 import re
+import traceback
+import tempfile
+import time
 
 DEFAULT_OPENOFFICE_PORT = 2002
 
 
 def find_process():
     p = subprocess.Popen('netstat -lnp|grep ' + str(DEFAULT_OPENOFFICE_PORT), shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    retval = p.wait()
     for line in p.stdout.readlines():
         process = re.findall(r' \d+\D*$', line)
         if process:
             process_number = process[0].split('/')[0]
             return process_number
-    retval = p.wait()
     print p.stdout.read()
 
 
 def start_soffice():
-    ps = subprocess.Popen('nohup soffice --accept="socket,port=2002;urp;" & ', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-    out = ' '
-    for line in ps.stdout.readlines():
-        out = out + line
-    ok = ps.wait()
-    # print 'error is %s' % out
-    return ok, out
+    try:
+        out_temp = tempfile.SpooledTemporaryFile(bufsize=10*1000)
+        fileno = out_temp.fileno()
+        ps = subprocess.Popen('nohup soffice --accept="socket,port=2002;urp;" & ', stdout=fileno,stderr=fileno,shell=True)
+        ok = ps.wait()
+        out_temp.seek(0)
+        lines = out_temp.readlines()
+        print lines
+
+        print ps.pid
+        return ok, lines
+    except Exception, e:
+            print traceback.format_exc()
+    finally:
+            if out_temp:
+                        out_temp.close()
+
 
 if __name__ == "__main__":
     pid = find_process()
@@ -39,6 +52,7 @@ if __name__ == "__main__":
         print '正在启动soffice服务'
         ok, out = start_soffice()
         if ok == 0:
+            time.sleep(5)
             pid = find_process()
             if pid != None:
                 print 'soffice服务启动成功！进程号为：%s' % pid
