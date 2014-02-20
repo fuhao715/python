@@ -47,8 +47,9 @@ my_log.debug('debug')  #被忽略
 my_log.info('info')    #被忽略
 my_log.warning('warn')
 my_log.error('error')
-pid = 123
-my_log.debug('debug soffice pid = %s', pid)
+pid = 12
+message = "message "
+my_log.debug('debug soffice pid = %d msg=%s ', pid, message)
 
 logfiles = glob.glob('%s*' % log_file)
 

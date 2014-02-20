@@ -17,3 +17,37 @@ DEBUG:root:this is a debug message
 2014-02-20 10:37:37,357 - WARNING: warn
 2014-02-20 10:37:37,357 - ERROR: error
 2014-02-20 10:37:37,357 - DEBUG: debug soffice pid = 123
+2014-02-20 15:42:44,444 - MyLogger - DEBUG - this is a debug message
+2014-02-20 15:42:44,444 - MyLogger - DEBUG - debug
+2014-02-20 15:42:44,444 - MyLogger - INFO - info
+2014-02-20 15:42:44,444 - MyLogger - WARNING - warn
+2014-02-20 15:42:44,444 - MyLogger - ERROR - error
+2014-02-20 15:43:30,171 - MyLogger - DEBUG - this is a debug message
+2014-02-20 15:43:30,171 - MyLogger - DEBUG - debug
+2014-02-20 15:43:30,171 - MyLogger - INFO - info
+2014-02-20 15:43:30,171 - MyLogger - WARNING - warn
+2014-02-20 15:43:30,171 - MyLogger - ERROR - error
+2014-02-20 15:43:44,418 - MyLogger - DEBUG - this is a debug message
+2014-02-20 15:43:44,418 - MyLogger - DEBUG - debug
+2014-02-20 15:43:44,418 - MyLogger - INFO - info
+2014-02-20 15:43:44,418 - MyLogger - WARNING - warn
+2014-02-20 15:43:44,418 - MyLogger - ERROR - error
+2014-02-20 15:43:44,418 - MyLogger - DEBUG - debug soffice pid = 123 msg=message  
+2014-02-20 15:44:01,523 - MyLogger - DEBUG - this is a debug message
+2014-02-20 15:44:01,523 - MyLogger - DEBUG - debug
+2014-02-20 15:44:01,523 - MyLogger - INFO - info
+2014-02-20 15:44:01,523 - MyLogger - WARNING - warn
+2014-02-20 15:44:01,523 - MyLogger - ERROR - error
+2014-02-20 15:44:01,523 - MyLogger - DEBUG - debug soffice pid = 123 msg=message  
+2014-02-20 15:44:20,624 - MyLogger - DEBUG - this is a debug message
+2014-02-20 15:44:20,624 - MyLogger - DEBUG - debug
+2014-02-20 15:44:20,624 - MyLogger - INFO - info
+2014-02-20 15:44:20,624 - MyLogger - WARNING - warn
+2014-02-20 15:44:20,624 - MyLogger - ERROR - error
+2014-02-20 15:44:20,624 - MyLogger - DEBUG - debug soffice pid = 123 msg=message  
+2014-02-20 15:44:55,536 - MyLogger - DEBUG - this is a debug message
+2014-02-20 15:44:55,536 - MyLogger - DEBUG - debug
+2014-02-20 15:44:55,536 - MyLogger - INFO - info
+2014-02-20 15:44:55,536 - MyLogger - WARNING - warn
+2014-02-20 15:44:55,536 - MyLogger - ERROR - error
+2014-02-20 15:44:55,536 - MyLogger - DEBUG - debug soffice pid = 12 msg=message  
