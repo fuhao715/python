@@ -10,6 +10,9 @@ import re
 import traceback
 import tempfile
 import time
+import os
+import logging
+import logging.handlers
 
 DEFAULT_OPENOFFICE_PORT = 2002
 
@@ -29,7 +32,7 @@ def start_soffice():
     try:
         out_temp = tempfile.SpooledTemporaryFile(bufsize=10*1000)
         fileno = out_temp.fileno()
-        ps = subprocess.Popen('nohup soffice --accept="socket,port=2002;urp;" & ', stdout=fileno,stderr=fileno,shell=True)
+        ps = subprocess.Popen('nohup soffice --accept="socket,port=2002;urp;" & ', stdout=fileno, stderr=fileno, shell=True )
         ok = ps.wait()
         out_temp.seek(0)
         lines = out_temp.readlines()
@@ -45,19 +48,27 @@ def start_soffice():
 
 
 if __name__ == "__main__":
+    log_file = os.path.join(os.getcwd(), 'dzda.log')
+    my_log = logging.getLogger("MyLogger")
+    my_log.setLevel(logging.DEBUG)
+
+    handler = logging.handlers.RotatingFileHandler(log_file, maxBytes=10*1024*1024, backupCount=5)
+    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+    handler.setFormatter(formatter)
+    my_log.addHandler(handler)
     pid = find_process()
     if pid != None:
-        print 'soffice服务已启动：进程号为：%s' % pid
+        my_log.debug('soffice服务已启动：进程号为：%s', pid)
     else:
-        print '正在启动soffice服务'
+        my_log.debug('正在启动soffice服务')
         ok, out = start_soffice()
         if ok == 0:
             time.sleep(5)
             pid = find_process()
             if pid != None:
-                print 'soffice服务启动成功！进程号为：%s' % pid
+                my_log.debug('soffice服务启动成功！进程号为：%s', pid)
             else:
-                print 'soffice启动失败! %s' %out
+                my_log.debug('soffice启动失败! %s', out)
 
         else:
-            print 'soffice启动失败! %s' %out
+            my_log.debug('soffice启动失败! %s', out)
