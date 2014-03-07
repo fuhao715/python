@@ -16,6 +16,21 @@ def my_log(func):
 
 @my_log
 def now():
-    print time.strftime('%Y-%m-%d',time.localtime(time.time()))
+    print time.strftime('%Y-%m-%d', time.localtime(time.time()))
 
 now()
+
+# 如果decorator本身需要传入参数，那就需要返回decorator的高阶函数，比如，要自定义log的文本：
+def log2(text):
+    def decorator(func):
+        def wrapper(*args, **kw):
+            print '%s %s():' % (text, func.__name__)
+            return func(*args, **kw)
+        return wrapper
+    return decorator
+
+@log2('execute')
+def now2():
+    print time.strftime('%Y-%m-%d', time.localtime(time.time()))
+
+now2()
