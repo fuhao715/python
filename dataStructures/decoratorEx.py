@@ -6,7 +6,7 @@ __author__ = 'fuhao'
 # * Time: 上午10:54
 # * To change this template use File | Settings | File Templates.
 import time
-
+import functools
 
 def now1():
     print time.strftime('%Y-%m-%d', time.localtime(time.time()))
@@ -29,6 +29,7 @@ now()
 # 如果decorator本身需要传入参数，那就需要返回decorator的高阶函数，比如，要自定义log的文本：
 def log2(text):
     def decorator(func):
+        @functools.wraps(func)
         def wrapper(*args, **kw):
             print '%s %s():' % (text, func.__name__)
             return func(*args, **kw)
@@ -45,3 +46,4 @@ now2()
 n = log2('executes')(now1)
 n()
 print n.__name__
+
