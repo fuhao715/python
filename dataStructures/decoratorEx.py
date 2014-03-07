@@ -8,6 +8,7 @@ __author__ = 'fuhao'
 import time
 import functools
 
+
 def now1():
     print time.strftime('%Y-%m-%d', time.localtime(time.time()))
 
@@ -31,15 +32,17 @@ def log2(text):
     def decorator(func):
         @functools.wraps(func)
         def wrapper(*args, **kw):
-            print '%s %s():' % (text, func.__name__)
-            return func(*args, **kw)
+            print 'before %s %s %s():' % (time.strftime('%Y-%m-%d', time.localtime(time.time())), text, func.__name__)
+            res = func(*args, **kw)
+            print 'after %s  %s %s():' % (time.strftime('%Y-%m-%d', time.localtime(time.time())), text, func.__name__)
+            return res
         return wrapper
     return decorator
 
 
 @log2('execute')
 def now2():
-    print time.strftime('%Y-%m-%d', time.localtime(time.time()))
+    print 'this ', time.strftime('%Y-%m-%d', time.localtime(time.time()))
 
 now2()
 
