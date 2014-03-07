@@ -7,6 +7,11 @@ __author__ = 'fuhao'
 # * To change this template use File | Settings | File Templates.
 import time
 
+
+def now1():
+    print time.strftime('%Y-%m-%d', time.localtime(time.time()))
+
+
 # 装饰器decorator，在不改变now函数情况下，在打印前后log信息,需要定义在now()前面
 def my_log(func):
     def wrapper(*args, **kw):
@@ -20,6 +25,7 @@ def now():
 
 now()
 
+
 # 如果decorator本身需要传入参数，那就需要返回decorator的高阶函数，比如，要自定义log的文本：
 def log2(text):
     def decorator(func):
@@ -29,8 +35,13 @@ def log2(text):
         return wrapper
     return decorator
 
+
 @log2('execute')
 def now2():
     print time.strftime('%Y-%m-%d', time.localtime(time.time()))
 
 now2()
+
+n = log2('executes')(now1)
+n()
+print n.__name__
