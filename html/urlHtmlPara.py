@@ -19,17 +19,17 @@ COUNTER = 1
 mail_server = "smtp.139.com"
 mail_port = 25
 use_tls = False
-mail_username = "15210795193@139.com"
-mail_password = "1121ai715"
-mail_from = "15210795193@139.com"
-mail_to = "15210795193@139.com"
+mail_username = "152********@139.com"
+mail_password = "******"
+mail_from = "152********@139.com"
+mail_to = "186********@139.com"
 subject_header = None
 
 
 def send_mail(msg):
     try:
         print 'begin send email !'
-        msg = MIMEText(msg.encode(), _charset='utf-8')
+        msg = MIMEText(msg)
         msg['From'] = mail_from
         msg['To'] = mail_to
         msg['Subject'] = subject_header
@@ -41,7 +41,8 @@ def send_mail(msg):
         mailServer.sendmail(mail_from, mail_to, msg.as_string())
         mailServer.close()
         print 'end send email'
-    except:
+    except Exception, ex:
+        print ex
         print("send mail fail!")
 
 def monitor(url, price_accpet):
@@ -70,7 +71,10 @@ def monitor(url, price_accpet):
         price_promotion = price[0]['p']
         print price_promotion, price_accpet
         if string.atof(price_promotion) < string.atof(price_accpet):
-            send_mail('现降价到'.join(price_promotion))
+            message = ''.join(['价格降低到 ',(price_promotion.encode('utf-8'))])
+            subject_header = ''.join([subject_header, message])
+            print subject_header, '----', message
+            send_mail(message)
             break
         time.sleep(60)
     print "program end"
