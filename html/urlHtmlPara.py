@@ -13,7 +13,6 @@ from email import utils
 import string
 import json
 from BeautifulSoup import BeautifulSoup
-import sys
 
 COUNTER = 1
 mail_server = "smtp.139.com"
@@ -42,8 +41,8 @@ def send_mail(msg):
         mailServer.close()
         print 'end send email'
     except Exception, ex:
-        print ex
-        print("send mail fail!")
+        print ex, 'send mail fail!'
+
 
 def monitor(url, price_accpet):
     idx = 0
@@ -52,7 +51,7 @@ def monitor(url, price_accpet):
     #for idx in range(COUNTER):
         try:
             page = urllib2.urlopen(url, timeout=1000)
-            page = unicode(page.read(),"gb2312","ignore").encode("gb2312","ignore")
+            page = unicode(page.read(), "gb2312", "ignore").encode("gb2312", "ignore")
             soup = BeautifulSoup(page, fromEncoding="gb18030")
             global subject_header
             subject_header = soup.html.head.title.string
@@ -61,9 +60,8 @@ def monitor(url, price_accpet):
             print subject_header
             skuid = url.split('/')[-1].split('.')[0]
             f = urllib2.urlopen('http://p.3.cn/prices/get?skuid=J_'+skuid, timeout=5)
-        except Exception,ex:
-            print ex
-            print "timenow:%s,couldnot open this %s" % (timenow, url)
+        except Exception, ex:
+            print ex, 'timenow:%s,couldnot open this %s' % (timenow, url)
             continue
         price = json.loads(f.read())
         f.close()
@@ -71,7 +69,7 @@ def monitor(url, price_accpet):
         price_promotion = price[0]['p']
         print price_promotion, price_accpet
         if string.atof(price_promotion) < string.atof(price_accpet):
-            message = ''.join(['价格降低到 ',(price_promotion.encode('utf-8'))])
+            message = ''.join(['价格降低到 ', (price_promotion.encode('utf-8'))])
             subject_header = ''.join([subject_header, message])
             print subject_header, '----', message
             send_mail(message)
