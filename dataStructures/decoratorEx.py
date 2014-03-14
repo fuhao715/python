@@ -50,3 +50,20 @@ n = log2('executes')(now1)
 n()
 print n.__name__
 
+
+def dec(func):
+    def modify(*args, **kwargs):
+        variable = kwargs.pop('variable', None)
+        print variable
+        x, y = func(*args, **kwargs)
+        return x, y
+    return modify
+
+@dec
+def func_sqrt(x, y):
+    print x**2, y**3
+    return x**2, y**3
+
+func_sqrt(x=2, y=3, variable='variable')
+func_sqrt(x=4, y=5)
+

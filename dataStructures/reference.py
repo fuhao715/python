@@ -19,12 +19,17 @@ if isinstance(shoplist, Iterable):
     for value in shoplist:
         print value, "---"
 
-l = [x*x for x in range(10)]
+#列表推导表达式
+l = [x*x for x in range(10) if x > 5]
 print l
-g = (x*x for x in range(10))
+#生成器表达式同列表推导式有着几乎相同的语法结构，区别在于生成器表达式是被圆括号包围，而不是方括号：
+g = (x*x for x in range(10) if x > 5)
 print g, g.next()
 
 print '----------'
+
+# yield 简单说来就是一个生成器，生成器是这样一个函数，它记住上一次返回时在函数体中的位置。
+# 对生成器函数的第二次（或第 n 次）调用跳转至该函数中间，而上次调用的所有局部变量都保持不变。
 def fab(res):
     n, a, b = 0, 0, 1
     while n < res:
