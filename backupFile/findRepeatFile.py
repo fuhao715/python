@@ -25,6 +25,7 @@ class HashFile:
 
     def Load(self, file_path):
         self.file_ext = file_path[file_path.rfind("."):]
+        self.file_path = file_path
         self.file_name = os.path.basename(file_path)
         self.file_size = os.path.getsize(file_path)
         self.hash_code = CalculateFileHash(file_path)
@@ -56,9 +57,23 @@ def CompareTwoFolder(src, dst):
                 break
 
 
+def recursiveOneFolder(folder_name):
+    file_dict = []
+    for root, dirs, files in os.walk(folder_name):
+        for f in files:
+            path = os.path.join(root, f)
+            hashFile = HashFile(path)
+            ist = [x for x in file_dict if hashFile.Equal(x)]
+            if len(ist) != 0:
+                print('file "{0}" is exist {1} '.format(path, ist[0].file_path))
+            else:
+                    file_dict.append(hashFile)
+
+
 if __name__ == '__main__':
-    CompareTwoFolder('D:\\book', 'D:\\book1')
-    sys.exit()
+    #CompareTwoFolder('D:\\book', 'D:\\book1')
+    #sys.exit()
+    recursiveOneFolder('D:/temp/test/')
 
 
 '''
