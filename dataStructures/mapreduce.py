@@ -95,3 +95,52 @@ def build(x, y):
 
 fun = build(3, 6)
 print fun, fun()
+
+
+name_len = map(len, ["hao", "chen", "coolshell"])
+print name_len
+# 输出 [3, 4, 9]
+
+def toUpper(item):
+      return item.upper()
+
+upper_name = map(toUpper, ["hao", "chen", "coolshell"])
+print upper_name
+# 输出 ['HAO', 'CHEN', 'COOLSHELL']
+
+squares = map(lambda x: x * x, range(9))
+print squares
+# 输出 [0, 1, 4, 9, 16, 25, 36, 49, 64]
+
+print reduce(lambda x, y: x+y, [1, 2, 3, 4, 5])
+# 输出 15
+
+
+# 计算数组中正数的平均值
+num =[2, -5, 9, 7, -2, 5, 3, 1, 0, -3, 8]
+positive_num_cnt = 0
+positive_num_sum = 0
+for i in range(len(num)):
+    if num[i] > 0:
+        positive_num_cnt += 1
+        positive_num_sum += num[i]
+
+if positive_num_cnt > 0:
+    average = positive_num_sum / positive_num_cnt
+
+print average
+# 输出 5
+
+# 用函数式编程则简易很多,两行代码搞定
+positive_num_sum = filter(lambda x: x > 0, num)
+average = reduce(lambda x, y: x + y, positive_num_sum)/len(positive_num_sum)
+print average
+
+''' 函数式编程有如下好处：
+1）代码更简单了。
+2）数据集，操作，返回值都放到了一起。
+3）你在读代码的时候，没有了循环体，于是就可以少了些临时变量，以及变量倒来倒去逻辑。
+4）你的代码变成了在描述你要干什么，而不是怎么去干。
+'''
+
+
