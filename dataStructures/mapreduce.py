@@ -143,4 +143,74 @@ print average
 4）你的代码变成了在描述你要干什么，而不是怎么去干。
 '''
 
+from random import random
 
+def move_cars(car_positions):
+    return map(lambda x: x + 1 if random() > 0.3 else x,
+               car_positions)
+
+def output_car(car_position):
+    return '-' * car_position
+
+def run_step_of_race(state):
+    return {'time': state['time'] - 1,
+            'car_positions': move_cars(state['car_positions'])}
+
+def draw(state):
+    print ''
+    print '\n'.join(map(output_car, state['car_positions']))
+
+def race(state):
+    draw(state)
+    if state['time']:
+        race(run_step_of_race(state))
+
+race({'time': 5,
+      'car_positions': [1, 1, 1]})
+
+
+
+# 利用yield关键字返回一个Generator
+def even_filter(nums):
+    for num in nums:
+        if num % 2 == 0:
+            yield num
+def multiply_by_three(nums):
+    for num in nums:
+        yield num * 3
+def convert_to_string(nums):
+    for num in nums:
+        yield 'The Number: %s' % num
+
+nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+pipeline = convert_to_string(multiply_by_three(even_filter(nums)))
+for num in pipeline:
+    print num
+# 输出：
+# The Number: 6
+# The Number: 12
+# The Number: 18
+# The Number: 24
+# The Number: 30
+
+# 利用map&Reduce方式实现
+def even_filter_1(nums):
+    return filter(lambda x: x %2 == 0, nums)
+
+def multiply_by_three_1(nums):
+    return map(lambda x: x *3, nums)
+
+def convert_to_string_1(nums):
+    return map(lambda x: 'The number : %s ' % x, nums)
+
+nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+pipeline = convert_to_string_1(multiply_by_three_1(even_filter_1(nums)))
+for num in pipeline:
+    print num
+
+print '-------------'
+# 他们的代码需要嵌套使用函数，这个有点不爽，如果我们能像下面这个样子就好了
+def pipeline_func(data, fns):
+    return reduce(lambda a, x : x(a), fns, data)
+
+print pipeline_func(nums, [even_filter_1,multiply_by_three_1,convert_to_string_1])
