@@ -211,6 +211,6 @@ for num in pipeline:
 print '-------------'
 # 他们的代码需要嵌套使用函数，这个有点不爽，如果我们能像下面这个样子就好了
 def pipeline_func(data, fns):
-    return reduce(lambda a, x : x(a), fns, data)
+    return reduce(lambda a, x: x(a), fns, data)
 
-print pipeline_func(nums, [even_filter_1,multiply_by_three_1,convert_to_string_1])
+print pipeline_func(nums, [even_filter_1, multiply_by_three_1, convert_to_string_1])
