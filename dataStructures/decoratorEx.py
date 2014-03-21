@@ -27,7 +27,9 @@ def now():
 now()
 
 
-# 如果decorator本身需要传入参数，那就需要返回decorator的高阶函数，比如，要自定义log的文本：
+# 如果decorator本身需要传入参数，那就需要返回decorator的高阶函数，比如，要自定义log的文本
+# 查询一下my_log.__name__的话，你会发现其输出的是“wrapper”，而不是我们期望的：
+# Python的functool包中提供了一个叫wrap的decorator来消除这样的副作用。
 def log2(text):
     def decorator(func):
         @functools.wraps(func)
@@ -49,6 +51,45 @@ now2()
 n = log2('executes')(now1)
 n()
 print n.__name__
+
+# 当然，即使是你用了functools的wraps，也不能完全消除这样的副作用。
+# from inspect import getmembers, getargspec
+import inspect
+
+def wraps_decorator(f):
+    @functools.wraps(f)
+    def wraps_wrapper(*args, **kwargs):
+        return f(*args, **kwargs)
+    return wraps_wrapper
+
+class SomeClass(object):
+    @wraps_decorator
+    def method(self, x, y):
+        pass
+
+obj = SomeClass()
+for name, func in inspect.getmembers(obj, predicate=inspect.ismethod):
+    print "Member Name: %s" % name
+    print "Func Name: %s" % func.func_name
+    print "Args: %s" % inspect.getargspec(func)[0]
+
+# 输出：
+# Member Name: method
+# Func Name: method
+# Args: []
+# 要修正这一问，我们还得用Python的反射来解决，下面是相关的代码：
+def get_true_argspec(method):
+    argspec = inspect.getargspec(method)
+    args = argspec[0]
+    if args and args[0] == 'self':
+        return argspec
+    if hasattr(method, '__func__'):
+        method = method.__func__
+    if not hasattr(method, 'func_closure') or method.func_closure is None:
+        raise Exception("No closure for method.")
+
+    method = method.func_closure[0].cell_contents
+    return get_true_argspec(method)
 
 
 def dec(func):
@@ -182,3 +223,4 @@ class Printer:
 
 p = Printer()
 p.print_message()
+
