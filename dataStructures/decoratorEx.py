@@ -86,3 +86,56 @@ print hello()
 # 输出：
 # <b class='bold_css'><i class='italic_css'>hello world</i></b>
 
+
+class myDecorator(object):
+
+    def __init__(self, fn):
+        print "inside myDecorator.__init__()"
+        self.fn = fn
+
+    def __call__(self):
+        self.fn()
+        print "inside myDecorator.__call__()"
+
+@myDecorator
+def aFunction():
+    print "inside aFunction()"
+
+print "Finished decorating aFunction()"
+
+aFunction()
+
+# 输出：
+# inside myDecorator.__init__()
+# Finished decorating aFunction()
+# inside aFunction()
+# inside myDecorator.__call__()
+
+
+'''
+上面这段代码中，我们需要注意这几点：
+1）如果decorator有参数的话，__init__() 成员就不能传入fn了，而fn是在__call__的时候传入的。
+2）这段代码还展示了 wrapped(*args, **kwargs) 这种方式来传递被decorator函数的参数。
+（其中：args是一个参数列表，kwargs是参数dict）
+'''
+class makeHtmlTagClass(object):
+
+    def __init__(self, tag, css_class=""):
+        self._tag = tag
+        self._css_class = " class='{0}'".format(css_class) \
+                                       if css_class !="" else ""
+
+    def __call__(self, fn):
+        def wrapped(*args, **kwargs):
+            return "<" + self._tag + self._css_class+">"  \
+                       + fn(*args, **kwargs) + "</" + self._tag + ">"
+        return wrapped
+
+@makeHtmlTagClass(tag="b", css_class="bold_css")
+@makeHtmlTagClass(tag="i", css_class="italic_css")
+def hello(name):
+    return "Hello, {}".format(name)
+
+print hello("Hao Chen")
+
+# 用Decorator设置函数的调用参数
