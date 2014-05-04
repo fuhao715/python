@@ -9,6 +9,6 @@ __author__ = 'lenovo'
 '''
 import functools
 
-int2 = functools.partial(int, base = 2)
+int2 = functools.partial(int, base=2)
 
 print int2('100000')
