@@ -18,4 +18,4 @@ add by fh
 
 * pymongo学习
 * pymongo上传文件，下载文件
-* 中文乱码
+* 中文乱码-中文乱码测试
