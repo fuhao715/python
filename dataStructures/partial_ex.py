@@ -46,3 +46,5 @@ s.set_score(100)
 s2.set_score(98)
 
 print s.score, s2.score
+
+print type(set_score)

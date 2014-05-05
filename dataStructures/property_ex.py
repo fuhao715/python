@@ -7,6 +7,9 @@ __author__ = 'fuhao'
  * Time: 下午3:32
  * To change this template use File | Settings | File Templates.
 '''
+import types
+
+
 class Student(object):
     @property
     def score(self):
@@ -92,4 +95,9 @@ class Chain(object):
     def __str__(self):
         return self._path
 
-print Chain().status.user.timeline.list
+    def user(self, name):
+        import sys
+        fn_name = (lambda:sys._getframe(1).f_code.co_name)()
+        return Chain('%s/%s/:%s' % (self._path, fn_name, name))
+
+print Chain().status.user('fuhao').timeline.list
