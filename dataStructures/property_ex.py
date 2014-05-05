@@ -32,6 +32,9 @@ class Student(object):
 
     __repr__ = __str__
 
+    def __call__(self):
+        print('My name is %s.' % self.name)
+
 
 
 
@@ -41,6 +44,7 @@ st.score = 70
 print st.score
 print Student('Amy')
 print st
+print st(), 'st()', callable(Student('Jack'))
 
 
 
@@ -101,3 +105,4 @@ class Chain(object):
         return Chain('%s/%s/:%s' % (self._path, fn_name, name))
 
 print Chain().status.user('fuhao').timeline.list
+# /status/user/:fuhao/timeline/list
