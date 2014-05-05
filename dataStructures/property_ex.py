@@ -52,9 +52,44 @@ class Fib(object):
     def next(self):
         self.a, self.b = self.b, self.a + self.b    # 计算下一个值
         if self.a > 100000:     # 退出循环的条件
-            raise StopIteration();
+            raise StopIteration()
         return self.a   # 返回下一个值
 
+    def __getitem__(self, n):
+        if isinstance(n, int):
+            a, b = 1, 1
+            for x in range(n):
+                a, b = b, a + b
+            return a
+        if isinstance(n, slice):
+            start = n.start
+            stop = n.stop
+            a, b = 1, 1
+            L = []
+            for x in range(stop + 1):
+                if x >= start:
+                    L.append(a)
+                a, b = b, a + b
+            return L
 
 for n in Fib():
     print n
+
+
+f = Fib()
+print f[1], f[100],f[0:5],f[:10:2]
+
+
+
+class Chain(object):
+
+    def __init__(self, path=''):
+        self._path = path
+
+    def __getattr__(self, path):
+        return Chain('%s/%s' % (self._path, path))
+
+    def __str__(self):
+        return self._path
+
+print Chain().status.user.timeline.list
