@@ -10,7 +10,7 @@ from PIL import Image
 from multiprocessing import Pool
 import os
 
-ims = Image.open("D:/css123.png")
+ims = Image.open("D:/css/css123.jpg")
 print ims.format
 print ims.size
 print ims.mode
