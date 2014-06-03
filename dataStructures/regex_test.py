@@ -32,7 +32,7 @@ print re.match(r'^(\d+)(0*)$', '102300').groups()
 # 非贪婪匹配，需要加?即可
 print re.match(r'^(\d+?)(0*)$', '102300').groups()
 
-# 预编译正则匹配表达式
+# 预编译正则匹配表达式  
 re_telephone = re.compile(r'^(\d{3})-(\d{3,8})$')
 print re_telephone.match('010-12345').groups()
 print re_telephone.match('010-8086').groups()
