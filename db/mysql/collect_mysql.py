@@ -10,12 +10,12 @@ __author__ = 'fuhao'
 import MySQLdb
 
 def person_list():
-    db_comm = MySQLdb.connect(user='root',db='python',passwd='root',host='localhost',charset='utf8')
+    db_comm = MySQLdb.connect(user='root', db='python', passwd='root', host='localhost', charset='utf8')
     cursor = db_comm.cursor()
     cursor.execute('select * from person ')
     names = [row[1] for row in cursor.fetchall()]
     for name in names:
-        print name,isinstance(name, str),isinstance(name,  unicode)
+        print name, isinstance(name, str), isinstance(name,  unicode)
 
     value = [4, '黄', '建']
     cursor.execute('insert into person values(%s, %s, %s)', value)
