@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>persons</title>
+</head>
+<body>
+<h1>persons</h1>
+<ul>
+{% for person in person_list %}
+<li>{{ person.name }}</li>
+{% endfor %}
+</ul>
+</body>
+</html>
